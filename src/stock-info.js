@@ -6,7 +6,7 @@ require("datejs")
 exports.dialogflowFirebaseFulfillment = ((request, response) => {
 
     const action = request.body.queryResult.action;
-    console.log(`action: ${action}`);
+
     if (action != 'input.getStockPrice') {
         return response.status(200).send(buildChatResponse("I'm sorry, I don't know this"));
     }
@@ -23,11 +23,6 @@ exports.dialogflowFirebaseFulfillment = ((request, response) => {
 
 
 function getStockPrice(companyName, priceType, date, finalResponse) {
-    console.log('In function getStockPrice');
-
-    console.log("Company name: " + companyName);
-    console.log("Price type: " + priceType);
-    console.log("Date: " + date);
 
     const tickerMap = {
         "apple": "AAPL",
@@ -59,22 +54,20 @@ function getStockPrice(companyName, priceType, date, finalResponse) {
     }, function (response) {
         let json = "";
         response.on('data', function (chunk) {
-            console.log("Received json response: " + chunk);
+            logger.log("Received json response: " + chunk);
             json += chunk;
         });
 
         response.on('end', function () {
             let jsonData = JSON.parse(json);
-            console.log(`jsonData: ${jsonData}`);
-            let stockPrice = jsonData.data[0] && jsonData.data[0].value;
 
-            console.log("The stock price received is: " + stockPrice);
+            let stockPrice = jsonData.data[0] && jsonData.data[0].value;
 
             let chat = `Couldn't find ${priceType} price for ${companyName} on ${(new Date(date)).toString("yyyy-MM-dd")}`;
             if(stockPrice != undefined){
                 chat = "The " + priceType + " price for " + companyName + " on " + (new Date(date)).toString("yyyy-MM-dd") + " was " + stockPrice;
             }
-
+            logger.info("Fulfillment response: " + chat);
             return finalResponse.status(200).send(buildChatResponse(chat));
         });
     });

@@ -80,8 +80,19 @@ function getStockPrice(companyName, priceType, date, finalResponse) {
     });
 }
 
-function buildChatResponse(chat) {
-    return JSON.stringify({ "speech": chat, "displayText": chat });
+function buildChatResponse(chat) { 
+    const responseJson = {
+        "fulfillmentMessages": [
+          {
+            "text": {
+              "text": [
+                chat
+              ]
+            }
+          }
+        ]
+      }
+    return JSON.stringify(responseJson);
 }
 
 

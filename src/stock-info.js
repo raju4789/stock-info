@@ -3,6 +3,13 @@
 const https = require('https');
 require("datejs")
 
+const winston = require('winston');
+const consoleTransport = new winston.transports.Console();
+const myWinstonOptions = {
+    transports: [consoleTransport]
+}
+const logger = new winston.createLogger(myWinstonOptions);
+
 exports.dialogflowFirebaseFulfillment = ((request, response) => {
 
     const action = request.body.queryResult.action;

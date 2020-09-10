@@ -52,7 +52,7 @@ function getStockPrice(companyName, priceType, date, finalResponse) {
     const stockTicker = tickerMap[companyName.toLowerCase()];
     const priceTypeCode = priceMap[priceType.toLowerCase()];
 
-    const API_KEY = 'OjBmODdiMzFjNjIxMDcwOTZiY2E3MmRjODUwMGNiNDc0';
+    const API_KEY = 'YOUR TOKEN';
     const PATH_STRING = `/historical_data?api_key=${API_KEY}&ticker=${stockTicker}&item=${priceTypeCode}&start_date=${date}&end_date=${date}`;
 
     https.get({

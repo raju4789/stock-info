@@ -45,7 +45,7 @@ function getStockPrice(companyName, priceType, date, finalResponse) {
     const stockTicker = tickerMap[companyName.toLowerCase()];
     const priceTypeCode = priceMap[priceType.toLowerCase()];
 
-    const API_KEY = '<YOUR KEY>';
+    const API_KEY = 'OmViZjY5YzBmZWUxZmZjYmZhNWFiMjYxMTdiYTVmNjM5';
     const PATH_STRING = `/historical_data?api_key=${API_KEY}&ticker=${stockTicker}&item=${priceTypeCode}&start_date=${date}&end_date=${date}`;
 
     https.get({
@@ -64,7 +64,7 @@ function getStockPrice(companyName, priceType, date, finalResponse) {
             let stockPrice = jsonData.data[0] && jsonData.data[0].value;
 
             let chat = `Couldn't find ${priceType} price for ${companyName} on ${(new Date(date)).toString("yyyy-MM-dd")}`;
-            if(stockPrice != undefined){
+            if (stockPrice != undefined) {
                 chat = "The " + priceType + " price for " + companyName + " on " + (new Date(date)).toString("yyyy-MM-dd") + " was " + stockPrice;
             }
             logger.info("Fulfillment response: " + chat);
@@ -73,18 +73,18 @@ function getStockPrice(companyName, priceType, date, finalResponse) {
     });
 }
 
-function buildChatResponse(chat) { 
+function buildChatResponse(chat) {
     const responseJson = {
         "fulfillmentMessages": [
-          {
-            "text": {
-              "text": [
-                chat
-              ]
+            {
+                "text": {
+                    "text": [
+                        chat
+                    ]
+                }
             }
-          }
         ]
-      }
+    }
     return JSON.stringify(responseJson);
 }
 
